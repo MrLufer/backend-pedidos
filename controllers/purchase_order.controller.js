@@ -14,7 +14,7 @@ exports.createPurchaseOrder = (req, res, next) => {
 };
 
 exports.getPurchaseOrders = (req, res) => {
-    PurchaseOrder.find().exec((err, docs) => {
+    PurchaseOrder.find().populate("supplier").populate("product").exec((err, docs) => {
     if(err){
         res.status(400).json(err);
     }

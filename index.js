@@ -28,7 +28,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //Settings
-app.set("port", process.env.PORT || 6666);
+app.set("port", process.env.PORT || 8666);
 
 //Routes
 

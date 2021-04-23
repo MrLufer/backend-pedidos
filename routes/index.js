@@ -1,4 +1,5 @@
 const express = require('express');
+const { login, createAdmin } = require('../controllers/auth.controller');
 const { finishPurchaseOrder, createProduct, listProducts,listProductsActives } = require('../controllers/product.controller');
 const { createPurchaseOrder, getPurchaseOrders } = require('../controllers/purchase_order.controller');
 const { createSupplier, listSupplier, listSupplierAtives, updateSupplier, supplierById } = require('../controllers/supplier.controller');
@@ -25,6 +26,12 @@ api.get("/suppliers",listSupplier)
 api.get("/suppliers-active",listSupplierAtives)
 //editar proveedor
 api.put("/supplier/:supplierId",updateSupplier)
+
+
+//auth
+api.post('/login', login);
+//create Admin
+api.post("/create-admin",createAdmin)
 
 
 //PARAMS
