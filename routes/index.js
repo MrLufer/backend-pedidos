@@ -1,14 +1,23 @@
 const express = require('express');
 const { login, createAdmin, createEmployee } = require('../controllers/auth.controller');
-const { finishPurchaseOrder, createProduct, listProducts,listProductsActives } = require('../controllers/product.controller');
+const { getOrders, createOrder } = require('../controllers/order.controller');
+const { finishPurchaseOrder, createProduct, listProducts,listProductsActives, validateQuantityOrder, discountStock } = require('../controllers/product.controller');
 const { createPurchaseOrder, getPurchaseOrders } = require('../controllers/purchase_order.controller');
 const { createSupplier, listSupplier, listSupplierAtives, updateSupplier, supplierById } = require('../controllers/supplier.controller');
+const { getEmployees } = require('../controllers/user.controller');
 const api = express();
 
 //crear orden de compra
 api.post("/purchase-order",createPurchaseOrder,finishPurchaseOrder)
 //lista de ordenes
 api.get("/purchase-orders",getPurchaseOrders)
+
+
+//pedidos
+
+
+api.get("/get-orders",getOrders)
+api.post("/create-order",validateQuantityOrder,discountStock,createOrder)
 
 
 //crear producto 
@@ -33,7 +42,9 @@ api.post('/login', login);
 //create Admin
 api.post("/create-admin",createAdmin)
 //create Employee
-api.post("/create-employee",createEmployee)
+api.post("/create-employee",createEmployee) 
+
+api.get("/get-employees",getEmployees)
 
 //PARAMS
 api.param("supplierId",supplierById)

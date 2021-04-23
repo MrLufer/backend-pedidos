@@ -5,22 +5,17 @@ const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 let OrderSchema = new Schema(
   {
-    code_product: {
+    code: {
+      type: String,required:true
+    },
+    user: { type: Schema.Types.ObjectId, ref: "User" },
+    product: { type: Schema.Types.ObjectId, ref: "Product",required:true },
+    unit_price: { type: Number,required:true },
+    quantity: { type: Number,required:true },
+    status: {
       type: String,
-    },
-    name_product: { type: String },
-    supplier: { type: String },
-    stock: {
-      type: Number,
-    },
-    quantity_unit: { type: Number },
-    units_order: { type: Number },
-    unit_price: {
-      type: Number,
-    },
-    discontinued: {
-      type: Boolean,
-      default: false,
+      enum:  ["CANCELADO", "ACEPTADO"],
+      default: "ACEPTADO",
     },
   },
   { timestamps: true }

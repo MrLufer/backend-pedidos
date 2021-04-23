@@ -10,6 +10,36 @@ exports.createProduct = (req, res) => {
   });
 };
 
+exports.validateQuantityOrder = (req, res,next) => {
+  Product.findById(req.body.product).exec((err, product) => {
+    if (err || !product) {
+      return res.status(400).json({
+        error: "product does not exist",
+      });
+    }
+    if (product.stock >= req.body.quantity) {
+      req.product = product;
+      next();
+    } else {
+      return res.status(400).json({
+        error: "No existe stock suficiente",
+      });
+    }
+  });
+};
+
+exports.discountStock = (req, res, next) => {
+  let product = req.product;
+  product.stock = product.stock - req.body.quantity;
+  product.save((err, doc) => {
+    if (err) {
+      res.status(400).json(err);
+    } else {
+      next();
+    }
+  });
+};
+
 exports.listProducts = (req, res) => {
   Product.find().exec((err, products) => {
     if (err) {
@@ -66,8 +96,7 @@ exports.productById = (req, res, next, id) => {
 };
 
 exports.finishPurchaseOrder = (req, res) => {
-
-  console.log(req.purchaseOrder)
+  console.log(req.purchaseOrder);
   Product.findById(req.purchaseOrder.product, function (err, doc) {
     if (err) {
       res.status(400).json(err);
