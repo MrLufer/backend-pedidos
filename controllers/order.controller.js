@@ -19,6 +19,15 @@ exports.createOrder = (req, res, next) => {
     if (err) {
       res.status(400).json(err);
     }
-    res.status(200).json(data)
+    res.status(200).json(data);
+  });
+};
+
+exports.getUserOrders = (req, res) => {
+  Order.find({ user: req.user._id }).populate("product").populate("user").exec((err, docs) => {
+    if (err) {
+      res.status(400).json(err);
+    }
+    res.status(200).json(docs);
   });
 };

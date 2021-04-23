@@ -10,7 +10,39 @@ exports.createProduct = (req, res) => {
   });
 };
 
-exports.validateQuantityOrder = (req, res,next) => {
+exports.updateStockPurchase = (req, res, next) => {
+  Product.findById(req.purchase.product._id).exec((err, product) => {
+    if (err || !product) {
+      return res.status(400).json({
+        error: "product does not exist",
+      });
+    }
+    let productUpdate = product;
+    //
+    if (req.body.status == "ACEPTAR") {
+      //AGREGAR
+      productUpdate.stock = productUpdate.stock + req.purchase.quantity;
+      productUpdate.units_order =
+        productUpdate.units_order - req.purchase.quantity;
+    } else {
+      //QUITAR
+      productUpdate.stock = productUpdate.stock - req.purchase.quantity;
+    }
+    productUpdate.save((err, doc) => {
+      if (err) {
+        res.status(400).json(err);
+      } else {
+        next(); 
+      }
+    });
+
+
+  });
+
+  
+};
+
+exports.validateQuantityOrder = (req, res, next) => {
   Product.findById(req.body.product).exec((err, product) => {
     if (err || !product) {
       return res.status(400).json({
@@ -59,7 +91,7 @@ exports.listProductsActives = (req, res) => {
 };
 
 exports.updateProduct = (req, res) => {
-  const product = req.product;
+  let product = req.product;
   Object.assign(product, req.body);
   product.save((err, doc) => {
     if (err) {
