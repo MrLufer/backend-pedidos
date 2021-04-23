@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
+const jwt = require("jsonwebtoken");
 exports.login = (req, res) => {
   let body = req.body;
 
@@ -45,7 +46,7 @@ exports.createEmployee = (req, res) => {
       }
       res.status(200).json({
         data,
-        password: password,
+        password: req.body.password,
         mensaje: "El usuario ha sido creado con éxito",
       });
     });

@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, createAdmin } = require('../controllers/auth.controller');
+const { login, createAdmin, createEmployee } = require('../controllers/auth.controller');
 const { finishPurchaseOrder, createProduct, listProducts,listProductsActives } = require('../controllers/product.controller');
 const { createPurchaseOrder, getPurchaseOrders } = require('../controllers/purchase_order.controller');
 const { createSupplier, listSupplier, listSupplierAtives, updateSupplier, supplierById } = require('../controllers/supplier.controller');
@@ -32,7 +32,8 @@ api.put("/supplier/:supplierId",updateSupplier)
 api.post('/login', login);
 //create Admin
 api.post("/create-admin",createAdmin)
-
+//create Employee
+api.post("/create-employee",createEmployee)
 
 //PARAMS
 api.param("supplierId",supplierById)
